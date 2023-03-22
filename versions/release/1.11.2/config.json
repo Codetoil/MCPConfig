@@ -1,7 +1,7 @@
 {
     "mcinjector" : {
         "version" : "de.oceanlabs.mcp:mcinjector:3.4.5:fatjar",
-        "args" : [ "--jarIn", "{input}", "--jarOut", "{output}", "--log", "{log}", "--lvt=LVT", "--mapIn", "{map}", "--jsonIn", "{exceptor}" ]
+        "args" : [ "--jarIn", "{input}", "--jarOut", "{output}", "--log", "{log}", "--lvt=LVT", "--mapIn", "{map}", "--jsonIn", "{exceptor}", "--generateParams" ]
     },
     "fernflower" : {
         "version" : "net.minecraftforge:forgeflower:2.0.629.20",
@@ -9,7 +9,7 @@
         "jvmargs" : [ "-Xmx4G" ]
     },
     "merge" : {
-        "version" : "net.minecraftforge:mergetool:0.2.3.2:fatjar",
+        "version" : "net.minecraftforge:mergetool:1.1.1:fatjar",
         "args" : [ "--client", "{client}", "--server", "{server}", "--inject", "false","--ann", "{version}", "--output", "{output}" ]
     },
     "rename" : {
