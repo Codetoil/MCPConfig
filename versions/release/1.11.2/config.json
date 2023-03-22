@@ -1,13 +1,12 @@
 {
     "mcinjector" : {
-        "version" : "de.oceanlabs.mcp:mcinjector:3.7.3:fatjar",
-        "args" : [ "--in", "{input}", "--out", "{output}", "--log", "{log}", "--lvt=LVT", "--exc", "{exceptions}", "--acc", "{access}", "--ctr", "{constructors}" ]
+        "version" : "de.oceanlabs.mcp:mcinjector:3.4.5:fatjar",
+        "args" : [ "--jarIn", "{input}", "--jarOut", "{output}", "--log", "{log}", "--lvt=LVT", "--mapIn", "{map}", "--jsonIn", "{exceptor}" ]
     },
     "fernflower" : {
-        "version" : "net.minecraftforge:forgeflower:0.2.3",
+        "version" : "net.minecraftforge:forgeflower:2.0.629.20",
         "args" : [ "-din=1", "-rbr=1", "-dgs=1", "-asc=1", "-rsy=1", "-iec=1", "-jvn=1", "-log=TRACE", "-cfg", "{libraries}", "{input}", "{output}" ],
-        "jvmargs" : [ "-Xmx4G" ],
-        "repo" : "https://maven.gemwire.uk/"
+        "jvmargs" : [ "-Xmx4G" ]
     },
     "merge" : {
         "version" : "net.minecraftforge:mergetool:0.2.3.2:fatjar",

@@ -4,9 +4,8 @@ import org.gradle.api.tasks.*
 
 //Deprecated.. Only here until we migrate all the old versions to not use MCInject
 public class MCInjectTask extends ToolJarExec {
-    @InputFile File access
-    @InputFile File constructors
-    @InputFile File exceptions
+    @InputFile File map
+    @InputFile File exceptor
     @InputFile File input
     @OutputFile File log
     @OutputFile File dest
@@ -14,9 +13,8 @@ public class MCInjectTask extends ToolJarExec {
     @Override
     protected void preExec() {
         setArgs(Utils.fillVariables(args, [
-            'access': access,
-            'constructors': constructors,
-            'exceptions': exceptions,
+            'map': map,
+            'exceptor': exceptor,
             'log': log,
             'input': input,
             'output': dest

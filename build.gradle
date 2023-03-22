@@ -219,11 +219,10 @@ subprojects {
         }
         
         if (MCINJECTOR != null) {
-            child.mcinject = task "mcinject${child.Name}"(type: MCInjectTask, dependsOn: [downloadMCInjector, child.rename, makeEmptyFile/*, makeExceptions, fixAccessLevels*/]) {
+            child.mcinject = task "mcinject${child.Name}"(type: MCInjectTask, dependsOn: [downloadMCInjector, child.rename, makeEmptyFile]) {
                 config MCINJECTOR, downloadMCInjector
-                access makeEmptyFile.dest //fixAccessLevels.dest
-                constructors project.file('constructors.txt')
-                exceptions makeEmptyFile.dest //makeExceptions.dest
+                map file('joined.exc')
+                exceptor file('exceptor.json')
                 standardOutput rootProject.NULL_OUPUT
                 log file(PATH_CACHED_VERSION + s + '.mci.log')
                 input child.rename.dest
@@ -532,6 +531,8 @@ subprojects {
                     encoding ENCODING
                     data {
                         mappings 'config/joined.tsrg'
+                        map 'config/joined.exc'
+                        exceptor 'config/exceptor.json'
                         inject 'config/inject/'
                         patches {
                             client 'patches/client/'
@@ -594,12 +595,10 @@ subprojects {
                     spec 1
                     version project.version
                     data {
-                        access 'config/access.txt'
-                        constructors 'config/constructors.txt'
-                        exceptions 'config/exceptions.txt'
+                        map 'config/joined.exc'
+                        exceptor 'config/exceptor.json'
                         mappings 'config/joined.tsrg'
                         inject 'config/inject/'
-                        statics 'config/static_methods.txt'
                         patches {
                             client 'patches/client/'
                             joined 'patches/joined/'
@@ -627,6 +626,8 @@ subprojects {
 
         from generateConfiguration
         from(file('joined.tsrg')){ into 'config/' }
+        from(file('joined.exc')){ into 'config/' }
+        from(file('exceptor.json')){ into 'config/' }
 
         def patches = file('patches')
         if (patches.exists()) {
