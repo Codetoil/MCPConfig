@@ -95,7 +95,7 @@ subprojects {
         MERGE_PATCHES = CONFIG.get('merge_patches', false)
         JAVA_TARGET = CONFIG.get('java_target', 8)
         ENCODING = CONFIG.get('encoding', 'UTF-8')
-        FERNFLOWER = Utils.readConfig(CONFIG, 'fernflower', [:])        
+        FERNFLOWER = Utils.readConfig(CONFIG, 'fernflower', [:])
         MERGETOOL = Utils.readConfig(CONFIG, 'merge', [
             version: 'net.minecraftforge:mergetool:1.0.4:fatjar',
             args: ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}"]
@@ -533,6 +533,9 @@ subprojects {
                         mappings 'config/joined.tsrg'
                         map 'config/joined.exc'
                         exceptor 'config/exceptor.json'
+                        exceptions 'config/exceptions.txt'
+                        access 'config/access.txt'
+                        constructors 'config/constructors.txt'
                         inject 'config/inject/'
                         patches {
                             client 'patches/client/'
@@ -597,6 +600,9 @@ subprojects {
                     data {
                         map 'config/joined.exc'
                         exceptor 'config/exceptor.json'
+                        exceptions 'config/exceptions.txt'
+                        access 'config/access.txt'
+                        constructors 'config/constructors.txt'
                         mappings 'config/joined.tsrg'
                         inject 'config/inject/'
                         patches {
@@ -626,8 +632,20 @@ subprojects {
 
         from generateConfiguration
         from(file('joined.tsrg')){ into 'config/' }
-        from(file('joined.exc')){ into 'config/' }
-        from(file('exceptor.json')){ into 'config/' }
+
+        // If the file contains joined.exc, then it's legacy (<1.11.2) and must also contain exceptor.json
+        def exc = file('joined.exc')
+        if (exc.exists()) {
+            from(exc){ into 'config/' }
+            from(file('exceptor.json')){ into 'config/' }
+        } else {
+            // If the file does not contain joined.exc then it must contain constructors.txt and exceptions.txt.
+            from(file('constructors.txt')){ into 'config/' }
+            from(file('exceptions.txt')){ into 'config/' }
+            // The file may contain access.txt but it is optional (as per 1.12.2)
+            def access = file('access.txt')
+            if (access.exists()) from(access) { into 'config/' }
+        }
 
         def patches = file('patches')
         if (patches.exists()) {
